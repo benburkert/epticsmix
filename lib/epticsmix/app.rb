@@ -30,13 +30,19 @@ module EpticsMix
     post '/login' do
       token = Client.login(params[:username], params[:password])
 
-      if user = User.where(:name => 'foo').first
+      redirect to('/') if token.blank?
+
+      if user = User.where(:name => github_user.name).first
         user.update_attributes(:token => token)
       else
-        User.create(:name => 'foo', :token => token)
+        User.create(:name => github_user.name, :token => token)
       end
 
-      token
+      redirect to('/vanity/feet')
+    end
+
+    get '/vanity/feet' do
+      User.all.map {|u| "#{u.name}: #{u.feet}" }.join("\n")
     end
 
   end

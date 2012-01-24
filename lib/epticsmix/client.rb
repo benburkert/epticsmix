@@ -20,7 +20,7 @@ module EpticsMix
 
       response = post(url, {}, nil, :loginID => username, :password => password)
 
-      token_from(response)
+      token_from(response) if response.status == 200
     end
 
     def token_from(response)
