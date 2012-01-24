@@ -28,9 +28,16 @@ module EpticsMix
     end
 
     post '/login' do
-      client = Client.login(params[:username], params[:password])
+      token = Client.login(params[:username], params[:password])
 
-      client.session_id
+      if user = User.where(:name => 'foo').first
+        user.update_attributes(:token => token)
+      else
+        User.create(:name => 'foo', :token => token)
+      end
+
+      token
     end
+
   end
 end

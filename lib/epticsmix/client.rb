@@ -3,16 +3,14 @@ module EpticsMix
 
     EPICMIX_URL = 'https://www.epicmix.com'
 
-    attr_accessor :session_id
+    attr_accessor :token
 
     def self.login(username, password)
-      client = new(nil)
-      client.login(username, password)
-      client
+      new(nil).login(username, password)
     end
 
-    def initialize(session_id)
-      @session_id = session_id
+    def initialize(token)
+      @token = token
 
       super(Rack::Client::Handler::NetHTTP, EPICMIX_URL)
     end
@@ -22,10 +20,10 @@ module EpticsMix
 
       response = post(url, {}, nil, :loginID => username, :password => password)
 
-      @session_id = session_id_from(response)
+      token_from(response)
     end
 
-    def session_id_from(response)
+    def token_from(response)
       response.headers['Set-Cookie'][%r{ASP.NET_SessionId=([^;]+);}, 1]
     end
   end
