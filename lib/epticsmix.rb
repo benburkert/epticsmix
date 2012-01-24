@@ -28,3 +28,4 @@ end
 
 require 'epticsmix/app'
 require 'epticsmix/client'
+require 'epticsmix/user'
