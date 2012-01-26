@@ -28,21 +28,31 @@ module EpticsMix
     end
 
     post '/login' do
-      token = Client.login(params[:username], params[:password])
-
-      redirect to('/') if token.blank?
-
-      if user = User.where(:name => github_user.name).first
-        user.update_attributes(:token => token)
+      if user = User.where(:name => github_name).first
+        user.update_attributes(:username => params[:username], :password => params[:password])
+      if user = User.where(:username => params[:username]).first
+        user.update_attributes(:name => github_name, :password => params[:password])
       else
-        User.create(:name => github_user.name, :token => token)
+        user = User.create(:name => github_name, :username => params[:username], :password => params[:password])
       end
 
-      redirect to('/vanity/feet')
+      if user.valid?
+        redirect to('/vanity')
+      else
+        redirect to('/')
+      end
     end
 
-    get '/vanity/feet' do
+    get '/vanity' do
+      users = User.all.sort_by {|u| u.vertical_feet }
+
       User.all.map {|u| "#{u.name}: #{u.feet}" }.join("\n")
+    end
+
+    helpers do
+      def github_name
+        github_user.name
+      end
     end
 
   end
