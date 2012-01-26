@@ -3,19 +3,21 @@ module EpticsMix
 
     EPICMIX_URL = 'https://www.epicmix.com'
 
-    attr_accessor :token
+    attr_accessor :username, :password, :token
 
     def self.login(username, password)
       new(nil).login(username, password)
     end
 
-    def initialize(token)
-      @token = token
+    def initialize(username, password)
+      @username, @password = username, password
 
       super(Rack::Client::Handler::NetHTTP, EPICMIX_URL)
+
+      @token = login
     end
 
-    def login(username, password)
+    def login
       url = '/vailresorts/sites/epicmix/api/mobile/authenticate.ashx'
 
       response = post(url, {}, nil, :loginID => username, :password => password)
