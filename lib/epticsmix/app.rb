@@ -30,7 +30,7 @@ module EpticsMix
     post '/login' do
       if user = User.where(:name => github_name).first
         user.update_attributes(:username => params[:username], :password => params[:password])
-      if user = User.where(:username => params[:username]).first
+      elsif user = User.where(:username => params[:username]).first
         user.update_attributes(:name => github_name, :password => params[:password])
       else
         user = User.create(:name => github_name, :username => params[:username], :password => params[:password])
@@ -43,10 +43,15 @@ module EpticsMix
       end
     end
 
-    get '/vanity' do
+    get '/vanity(/feet)' do
       users = User.all.sort_by {|u| u.vertical_feet }
 
-      User.all.map {|u| "#{u.name}: #{u.feet}" }.join("\n")
+      User.all.map {|u| "#{u.name}: #{u.vertical_feet}" }.join("\n")
+    end
+
+    get '/vanity/points' do
+      users = User.all.sort_by {|u| u.points }
+      User.all.map {|u| "#{u.name}: #{u.points}" }.join("\n")
     end
 
     helpers do
