@@ -6,7 +6,12 @@ module EpticsMix
     end
 
     def season_stats(year = 2011)
-      client.season_stats.detect {|season| season['year'] == year.to_i }
+      @season_stats ||= begin
+        stats = client.season_stats
+        return {} if stats.nil?
+
+        stats.detect {|season| season['year'] == year.to_i }
+      end
     end
 
     def vertical_feet
@@ -14,7 +19,7 @@ module EpticsMix
     end
 
     def points
-      @points ||= season_stats['points']
+      @points ||= season_stats['points'] || 0
     end
 
   end
