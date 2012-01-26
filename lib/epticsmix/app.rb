@@ -70,10 +70,12 @@ module EpticsMix
 
         message = "#{first_place.name.rjust(padding)}: #{top_value.to_s.rjust(10)} #{type}\n"
 
-        users.inject(message) do |m, user|
+        musers.inject(top_value) do |last_value, user|
           value      = user.send(method).to_i
-          difference = top_value - value
+          difference = last_value - value
           m << "#{u.name.rjust(padding)}: #{value} ( #{difference.to_s.rjust(10)} to go)\n"
+
+          value
         end
 
         message
