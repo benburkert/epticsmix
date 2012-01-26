@@ -71,7 +71,7 @@ module EpticsMix
         users.inject(top_value) do |last_value, user|
           value      = user.send(method).to_i
           difference = last_value - value
-          m << "#{u.name.rjust(padding)}: #{value} ( #{difference.to_s.rjust(10)} to go)\n"
+          message << "#{user.name.rjust(padding)}: #{value} ( #{difference.to_s.rjust(10)} to go)\n"
 
           value
         end
