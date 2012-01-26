@@ -17,7 +17,7 @@ module EpticsMix
       <<-HTML
   <html>
     <body>
-      <p>Hi there. I'm gonna need your username and password for http://www.epicmix.com/, it's probably your
+      <p>Hi there. I'm gonna need your username and password for <a href='http://www.epicmix.com'>/http://www.epicmix.com/</a>, it's probably your
          email address. You did use a random password, right?</p>
       <form action='/login' method='post'>
         <p>epicmix.com email: <input type='text' name='username' /></p>
