@@ -43,20 +43,38 @@ module EpticsMix
       end
     end
 
-    get '/vanity(/feet)' do
+    get '/vanity' do
       users = User.all.sort_by {|u| u.vertical_feet }
 
-      User.all.map {|u| "#{u.name}: #{u.vertical_feet}" }.join("\n")
+      rank_by('vertical feet', users, :vertical_feet)
     end
 
     get '/vanity/points' do
       users = User.all.sort_by {|u| u.points }
-      User.all.map {|u| "#{u.name}: #{u.points}" }.join("\n")
+
+      rank_by('epic points', users, :points)
     end
 
     helpers do
       def github_name
         github_user.name
+      end
+
+      def rank_by(type, users, method)
+        padding = users.map {|u| u.name.size }.max
+
+        first_place = users.shift
+        top_value   = first_place.send(method).to_i
+
+        message = "#{first_place.name.rjust(padding, ' ')}: #{top_value} #{type}\n"
+
+        users.inject(message) do |m, user|
+          value      = user.send(method).to_i
+          difference = top_value - value
+          m << "#{u.name.rjust(padding, ' ')}: #{value} ( #{difference} to go)\n"
+        end
+
+        message
       end
     end
 
