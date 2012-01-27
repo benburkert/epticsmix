@@ -65,13 +65,14 @@ module EpticsMix
 
         first_place = users.shift
         top_value   = first_place.send(method).to_i
+        value_pad   = Math.log10(top_value).ceil
 
-        message = "#{first_place.name.rjust(padding)}: #{top_value.to_s.rjust(10)} #{type}\n"
+        message = "#{first_place.name.rjust(padding)}: #{top_value} #{type}\n"
 
         users.inject(top_value) do |last_value, user|
           value      = user.send(method).to_i
           difference = last_value - value
-          message << "#{user.name.rjust(padding)}: #{value.to_s.rjust(10)} ( #{difference} to go)\n"
+          message << "#{user.name.rjust(padding)}: #{value.to_s.rjust(value_pad)} ( #{difference} to go)\n"
 
           value
         end
