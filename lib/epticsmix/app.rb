@@ -77,7 +77,7 @@ module EpticsMix
           value
         end
 
-        message
+        message << "\n\nLogin at http://epticsmix.herokuapp.com to join the competition."
       end
     end
 
