@@ -10,12 +10,12 @@ module EpticsMix
         stats = client.season_stats
         return {} if stats.nil?
 
-        stats.detect {|season| season['year'] == year.to_i }
+        stats.detect {|season| season['year'] == year.to_i } || {}
       end
     end
 
     def vertical_feet
-      @vertical_feet ||= season_stats['verticalFeet']
+      @vertical_feet ||= season_stats['verticalFeet'] || 0
     end
 
     def points
