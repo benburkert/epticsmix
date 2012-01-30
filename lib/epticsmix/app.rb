@@ -46,6 +46,8 @@ module EpticsMix
     get '/vanity' do
       users = User.all.sort_by {|u| u.vertical_feet }.reverse
 
+      content_type 'text/plain'
+
       rank_by('vertical feet', users, :vertical_feet)
     end
 
