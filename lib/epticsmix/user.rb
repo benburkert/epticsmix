@@ -5,7 +5,7 @@ module EpticsMix
       @client ||= Client.new(self.username, self.password)
     end
 
-    def season_stats(year = 2011)
+    def season_stats(year = 2012)
       @season_stats ||= begin
         stats = client.season_stats
         return {} if stats.nil?
