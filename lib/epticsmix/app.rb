@@ -46,6 +46,8 @@ module EpticsMix
     get '/vanity' do
       users = User.all.sort_by {|u| u.vertical_feet }.reverse
 
+      content_type 'text/plain'
+
       rank_by('vertical feet', users, :vertical_feet)
     end
 
@@ -72,7 +74,7 @@ module EpticsMix
         users.inject(top_value) do |last_value, user|
           value      = user.send(method).to_i
           difference = last_value - value
-          message << "#{user.name.rjust(padding)}: #{value.to_s.rjust(value_pad)} ( #{difference} to go)\n"
+          message << "#{user.name.rjust(padding)}: #{value.to_s.rjust(value_pad)} (#{difference} to go)\n"
 
           value
         end
