@@ -5,7 +5,7 @@ module EpticsMix
       @client ||= Client.new(self.username, self.password)
     end
 
-    def season_stats(year = 2012)
+    def season_stats(year = current_season)
       @season_stats ||= begin
         stats = client.season_stats
         return {} if stats.nil?
@@ -22,5 +22,8 @@ module EpticsMix
       @points ||= season_stats['points'] || 0
     end
 
+    def current_season
+      Time.now.month >= 5 ? Time.now.year : Time.now.year + 1
+    end
   end
 end
